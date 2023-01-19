@@ -6,6 +6,9 @@ const { createProfileOnChain } = require("../../helpers/profile-onchain.js");
 
 dotenv.config();
 
+const valid_content_uri =
+  "https://soluchain.infura-ipfs.io/ipfs/QmUb8LDuYjUhpyUYtjE12kBiUMEnoxLwa8dQoZJHVYenEp";
+
 const CREATE_PROFILE_MUTATION = gql`
   mutation createProfile($request: CreateProfileInput!) {
     createProfile(request: $request) {
@@ -39,7 +42,7 @@ describe("createProfile", () => {
 
   test("should create a new profile", async () => {
     const handler = getValidHandlerRandom();
-    const contentUri = "https://test.com";
+    const contentUri = valid_content_uri;
 
     await createProfileOnChain(handler, contentUri);
 

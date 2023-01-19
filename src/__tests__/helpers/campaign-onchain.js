@@ -24,10 +24,12 @@ const profileContract = new ethers.Contract(
   profileABI,
   signer
 );
+const profile_content_uri =
+  "https://soluchain.infura-ipfs.io/ipfs/QmUb8LDuYjUhpyUYtjE12kBiUMEnoxLwa8dQoZJHVYenEp";
 
 const createCampaignOnChain = async (handler, contentUri) => {
   // First, create a profile on-chain
-  await createProfileOnDB(handler, contentUri);
+  await createProfileOnDB(handler, profile_content_uri);
 
   // Get the profile on-chain
   await profileContract.getProfile(handler);

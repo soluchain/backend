@@ -9,18 +9,40 @@ Parameters:
     handler: String!
 */
 
-import { makeError, ZERO_ADDRESS } from "../../../utils/index.js";
+import {
+  ipfsUrlValidator,
+  makeError,
+  ZERO_ADDRESS,
+} from "../../../utils/index.js";
 import { PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import dotenv from "dotenv";
 import { defaults } from "../../../config/index.js";
+import { ProfileMongoDBModel } from "../../../mongodb-models/index.js";
 dotenv.config();
 
 const { DYNAMODB_TABLE_NAME } = process.env;
 
+const getProfile = async (dynamoDB, { pk, sk }) => {
+  const paramsGet = {
+    TableName: DYNAMODB_TABLE_NAME,
+    Key: {
+      pk,
+      sk,
+    },
+  };
+
+  // Get the profile from the database
+  const commandGet = new GetCommand(paramsGet);
+  return dynamoDB.send(commandGet);
+};
+
 export const createProfile = async (request, { lambdaContext }) => {
   try {
-    const { handler } = request;
     const { profileContract, dynamoDB } = lambdaContext;
+
+    const handler = request.handler.toLowerCase();
+    const pk = `profile#${handler}`;
+    const sk = `profile#${handler}`;
 
     // Isert the new profile into the database ONLY if the profile EXISTS in the smart contract
     const profileData = await profileContract.getProfile(handler);
@@ -28,24 +50,21 @@ export const createProfile = async (request, { lambdaContext }) => {
       return makeError("ProfileDoesNotExist");
     }
 
-    const pk = `profile#${profileData.handler.toLowerCase()}`;
-    const sk = `profile#${profileData.handler.toLowerCase()}`;
+    const {
+      isValid: isValidIpfsUrl,
+      error: ipfsUrlError,
+      content,
+    } = await ipfsUrlValidator(profileData.contentUri, "profile");
 
-    // Check if the profile already exists in the database
-    const paramsGet = {
-      TableName: DYNAMODB_TABLE_NAME,
-      Key: {
-        pk,
-        sk,
-      },
-    };
+    if (!content) {
+      return ipfsUrlError || makeError("InvalidContentUri");
+    }
 
-    // Get the profile from the database
-    const commandGet = new GetCommand(paramsGet);
-    const dataGet = await dynamoDB.send(commandGet);
+    // Check if profile already exists
+    const profileGet = await getProfile(dynamoDB, { pk, sk });
 
     // check if handler already exists
-    if (dataGet.Item) {
+    if (profileGet.Item) {
       return makeError("ProfileAlreadyExists");
     }
 
@@ -57,9 +76,11 @@ export const createProfile = async (request, { lambdaContext }) => {
         sk,
         id: profileData.id.toString(),
         owner: profileData.owner,
-        handler: profileData.handler,
+        handler,
         contentUri: profileData.contentUri,
         status: defaults.PROFILE_STATUS,
+        image: content.image,
+        bio: content.bio,
         featured: defaults.FEATURED_PROFILE,
         createdAt: profileData.createdAt.toString(),
         updatedAt: profileData.updatedAt.toString(),
@@ -70,24 +91,39 @@ export const createProfile = async (request, { lambdaContext }) => {
 
         // GSI2 for getting all profiles by status
         gsi2pk: `PROFILE_STATUS#${defaults.PROFILE_STATUS}`,
-        gsi2sk: `PROFILE_CREATED_AT#${profileData.createdAt.toString()}`,
+        gsi2sk: profileData.createdAt.toString(),
 
         // GSI3 - Campaigns by featured
         gsi3pk: `PROFILE_FEATURED#${defaults.FEATURED_PROFILE}`,
-        gsi3sk: `PROFILE_CREATED_AT#${profileData.createdAt.toString()}`,
+        gsi3sk: profileData.createdAt.toString(),
       },
     };
 
     const command = new PutCommand(params);
     const data = await dynamoDB.send(command);
 
-    if (data.$metadata.httpStatusCode !== 200) {
-      return makeError("InternalServerError");
+    if (data.$metadata.httpStatusCode === 200) {
+      // Create doc in MongoDB
+      const profileMongoResult = await ProfileMongoDBModel.create({
+        profileId: profileData.id.toString(),
+        pk,
+        sk,
+        owner: profileData.owner,
+        handler,
+        contentUri: profileData.contentUri,
+        status: defaults.PROFILE_STATUS,
+        image: content.image,
+        bio: content.bio,
+        createdAt: new Date(profileData.createdAt * 1000),
+        updatedAt: new Date(profileData.updatedAt * 1000),
+      });
+
+      return {
+        profile: profileData,
+      };
     }
 
-    return {
-      profile: profileData,
-    };
+    return makeError("InternalServerError");
   } catch (error) {
     return {
       error,

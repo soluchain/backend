@@ -179,6 +179,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
       id: profileGet.Item.id,
       handler: profileGet.Item.handler,
       image: profileGet.Item.image,
+      bio: profileGet.Item.bio,
     };
 
     // set the params.location if the campaign location
@@ -234,7 +235,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
         campaignId: campaignData.id.toString(),
         pk: campaignPK,
         sk: campaignSK,
-        owner: owner,
+        owner,
         handler,
         profile: denormalizedProfileData,
         contentUri: campaignData.contentUri,
