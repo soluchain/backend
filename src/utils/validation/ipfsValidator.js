@@ -29,9 +29,8 @@ export const ipfsUrlValidator = async (uri, entity) => {
     // Check if the content is valid
     if (entity === "profile") {
       if (
-        !content.name ||
         !content.bio ||
-        !content.avatar ||
+        !content.image ||
         !content.image.startsWith(IPFS_PATH) ||
         !content.image.replace(IPFS_PATH, "").match(/^[a-zA-Z0-9]+$/) ||
         content.image.replace(IPFS_PATH, "").length !== 46

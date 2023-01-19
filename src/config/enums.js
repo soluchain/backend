@@ -7,6 +7,8 @@ export const enums = {
     DELETED: "deleted",
   },
 
+  PROFILE_STATUS_MONGODB: ["active", "banned", "pending", "deleted"],
+
   // Campaign
   CAMPAIGN_STATUS: {
     ACTIVE: "active",

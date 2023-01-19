@@ -3,7 +3,7 @@ import { enums } from "../config/enums.js";
 
 const { Schema } = mongoose;
 
-const CampaignSchema = new Schema({
+const ProfileSchema = new Schema({
   pk: {
     type: String,
     required: true,
@@ -13,7 +13,7 @@ const CampaignSchema = new Schema({
     type: String,
     required: true,
   },
-  campaignId: {
+  profileId: {
     type: String,
     required: true,
     unique: true,
@@ -29,23 +29,7 @@ const CampaignSchema = new Schema({
     required: true,
     index: true,
   },
-  profile: {
-    id: String,
-    owner: String,
-    handler: String,
-    image: String,
-    bio: String,
-    contentUri: String,
-  },
   contentUri: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
     type: String,
     required: true,
   },
@@ -53,26 +37,19 @@ const CampaignSchema = new Schema({
     type: String,
     required: true,
     index: true,
-    enum: enums.CAMPAIGN_STATUS_MONGODB,
+    enum: enums.PROFILE_STATUS_MONGODB,
   },
   image: {
     type: String,
+  },
+  bio: {
+    type: String,
+    maxlength: 160,
   },
   featured: {
     type: Boolean,
     default: false,
     index: true,
-  },
-  location: {
-    type: {
-      type: String,
-      enum: ["Point", "LineString", "Polygon"],
-      required: true,
-    },
-    coordinates: {
-      type: [],
-      required: true,
-    },
   },
   createdAt: {
     type: Date,
@@ -86,6 +63,4 @@ const CampaignSchema = new Schema({
   },
 });
 
-CampaignSchema.index({ location: "location" });
-
-export const CampaignMongoDBModel = mongoose.model("campaigns", CampaignSchema);
+export const ProfileMongoDBModel = mongoose.model("profiles", ProfileSchema);
