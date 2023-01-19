@@ -19,6 +19,7 @@ export const profileType = gql`
     owner: Address
     handler: String
     image: String
+    bio: String
     contentUri: String
     status: String
     featured: Boolean
