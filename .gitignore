@@ -1,0 +1,26 @@
+# dotenv environment variables file
+.env
+
+# package directories
+node_modules
+jspm_packages
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# Serverless directories
+.serverless
+
+# IDE directories
+.idea
+.vscode
+
+# OS directories
+.DS_Store
+
+# Build directories
+build
+
+# Logs
+logs
+*.log

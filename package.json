@@ -1,0 +1,40 @@
+{
+  "name": "soluchain",
+  "version": "0.1.0",
+  "description": "Soluchain",
+  "type": "module",
+  "scripts": {
+    "start": "sls offline",
+    "test": "jest"
+  },
+  "jest": {
+    "testTimeout": 30000,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/helpers/"
+    ]
+  },
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "serverless-appsync-plugin": "^1.14.0",
+    "serverless-offline": "^11.6.0"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.2.2",
+    "@as-integrations/aws-lambda": "^1.1.0",
+    "@aws-sdk/client-dynamodb": "^3.235.0",
+    "@aws-sdk/lib-dynamodb": "^3.235.0",
+    "@turf/turf": "^6.5.0",
+    "axios": "^1.2.1",
+    "chance": "^1.1.9",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.1.0",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.3",
+    "sanitize-html": "^2.8.1"
+  }
+}

@@ -1,0 +1,8 @@
+type Blog {
+  id: ID
+  title: String
+}
+
+type Query {
+  getBlogPost(id: ID): Blog!
+}

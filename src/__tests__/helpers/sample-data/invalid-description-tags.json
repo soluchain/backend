@@ -1,0 +1,23 @@
+{
+  "title": "In consequat velit velit ea id esse.",
+  "description": "Dolore enim <script>occaecat labore velit nulla duis fugiat adipisicing</script> occaecat dolore veniam. Ut enim Lorem tempor incididunt tempor laboris Lorem ad consequat ex nostrud ut. ",
+  "image": "https://test.com/image.png",
+  "location": {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "coordinates": [
+        [
+          [51.65663924157698, 32.65932986604376],
+          [51.65887494947282, 32.64700897159811],
+          [51.68163852078112, 32.63896524965065],
+          [51.69871119926239, 32.65145837933841],
+          [51.6952560143327, 32.66668736814219],
+          [51.670459981300354, 32.66702956280122],
+          [51.65663924157698, 32.65932986604376]
+        ]
+      ],
+      "type": "Polygon"
+    }
+  }
+}

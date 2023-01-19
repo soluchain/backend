@@ -1,0 +1,22 @@
+{
+  "title": "Ad magna dolor ad velit mollit. Sit fugiat ut ea qui.",
+  "description": "We want to make our city more sustainable. We want to know what you think about this. Please share your ideas with us. We will use your ideas to make our city more sustainable.",
+  "image": "https://test.com/image.png",
+  "location": {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "coordinates": [
+        [
+          [58.004134559641955, 37.048128569173755],
+          [55.07153298218009, 22.991503803363827],
+          [63.988332932580704, 27.694502014203692],
+          [70.19876213977722, 35.045197564410344],
+          [64.32773879523555, 39.62763793915937],
+          [58.004134559641955, 37.048128569173755]
+        ]
+      ],
+      "type": "Polygon"
+    }
+  }
+}
