@@ -57,4 +57,10 @@ export const campaignType = gql`
   input CreateCampaignInput {
     id: BigInt!
   }
+
+  input JoinCampaignInput {
+    campaignId: BigInt!
+    handler: String!
+    participantHandler: String!
+  }
 `;

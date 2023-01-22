@@ -27,14 +27,18 @@ const profileContract = new ethers.Contract(
 const profile_content_uri =
   "https://soluchain.infura-ipfs.io/ipfs/QmUb8LDuYjUhpyUYtjE12kBiUMEnoxLwa8dQoZJHVYenEp";
 
-const createCampaignOnChain = async (handler, contentUri) => {
+const createCampaignOnChain = async (
+  handler,
+  campaignContentUri,
+  profileContentUri = profile_content_uri
+) => {
   // First, create a profile on-chain
-  await createProfileOnDB(handler, profile_content_uri);
+  await createProfileOnDB(handler, profileContentUri);
 
   // Get the profile on-chain
   await profileContract.getProfile(handler);
 
-  const tx = await campaignContract.createCampaign(handler, contentUri);
+  const tx = await campaignContract.createCampaign(handler, campaignContentUri);
 
   await tx.wait();
 
@@ -51,9 +55,13 @@ const getCampaignOnChain = async (id) => {
   return campaign;
 };
 
-const createCampaignOnDB = async (handler, contentUri) => {
+const createCampaignOnDB = async (
+  handler,
+  campaignContentUri,
+  profileContentUri = profile_content_uri
+) => {
   // First, create a campaign on-chain
-  const campaignId = await createCampaignOnChain(handler, contentUri);
+  const campaignId = await createCampaignOnChain(handler, campaignContentUri);
 
   // Then, create a campaign on DB
   const CREATE_CAMPAIGN_MUTATION = gql`
@@ -83,8 +91,18 @@ const createCampaignOnDB = async (handler, contentUri) => {
   return data?.createCampaign;
 };
 
+const joinCampaignOnChain = async (campaignId, participantHandler) => {
+  const tx = await campaignContract.joinCampaign(
+    campaignId,
+    participantHandler
+  );
+  await tx.wait();
+  return true;
+};
+
 module.exports = {
   createCampaignOnChain,
   getCampaignOnChain,
   createCampaignOnDB,
+  joinCampaignOnChain,
 };

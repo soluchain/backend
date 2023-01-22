@@ -10,5 +10,6 @@ export const mutation = gql`
 
     # Campaign
     createCampaign(request: CreateCampaignInput!): CampaignResponse
+    joinCampaign(request: JoinCampaignInput!): DataResponse
   }
 `;

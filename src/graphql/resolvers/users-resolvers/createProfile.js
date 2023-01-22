@@ -50,6 +50,8 @@ export const createProfile = async (request, { lambdaContext }) => {
       return makeError("ProfileDoesNotExist");
     }
 
+    const createdAt = new Date(profileData.createdAt * 1000).toString();
+
     const {
       isValid: isValidIpfsUrl,
       error: ipfsUrlError,
@@ -82,20 +84,20 @@ export const createProfile = async (request, { lambdaContext }) => {
         image: content.image,
         bio: content.bio,
         featured: defaults.FEATURED_PROFILE,
-        createdAt: profileData.createdAt.toString(),
-        updatedAt: profileData.updatedAt.toString(),
+        createdAt: createdAt,
+        updatedAt: createdAt,
 
         // GSI1 for getting all profiles by owner
         gsi1pk: `PROFILE_OWNER#${profileData.owner}`,
-        gsi1sk: profileData.createdAt.toString(),
+        gsi1sk: createdAt,
 
         // GSI2 for getting all profiles by status
         gsi2pk: `PROFILE_STATUS#${defaults.PROFILE_STATUS}`,
-        gsi2sk: profileData.createdAt.toString(),
+        gsi2sk: createdAt,
 
         // GSI3 - Campaigns by featured
         gsi3pk: `PROFILE_FEATURED#${defaults.FEATURED_PROFILE}`,
-        gsi3sk: profileData.createdAt.toString(),
+        gsi3sk: createdAt,
       },
     };
 
@@ -114,8 +116,8 @@ export const createProfile = async (request, { lambdaContext }) => {
         status: defaults.PROFILE_STATUS,
         image: content.image,
         bio: content.bio,
-        createdAt: new Date(profileData.createdAt * 1000),
-        updatedAt: new Date(profileData.updatedAt * 1000),
+        createdAt: createdAt,
+        updatedAt: createdAt,
       });
 
       return {
