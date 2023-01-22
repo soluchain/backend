@@ -9,5 +9,8 @@ export const query = gql`
     # Campaign
     getCampaign(request: SingleCampaignQueryRequest!): CampaignResponse
     getCampaigns(request: CampaignsQueryInput!): CampaignsResponse
+    getParticipants(
+      request: CampaignParticipantsQueryRequest!
+    ): CampaignParticipantsResponse
   }
 `;

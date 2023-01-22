@@ -231,6 +231,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
           id: campaignData.id.toString(),
           title: content.title,
           description: content.description,
+          image: content.image,
           status: defaults.CAMPAIGN_STATUS,
         },
       };

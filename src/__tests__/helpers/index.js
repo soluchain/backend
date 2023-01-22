@@ -8,6 +8,7 @@ const {
   getCampaignOnChain,
   createCampaignOnDB,
   joinCampaignOnChain,
+  joinCampaignOnDB,
 } = require("./campaign-onchain.js");
 
 module.exports = {
@@ -19,4 +20,5 @@ module.exports = {
   getCampaignOnChain,
   createCampaignOnDB,
   joinCampaignOnChain,
+  joinCampaignOnDB,
 };
