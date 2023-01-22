@@ -10,7 +10,7 @@ Parameters:
 */
 
 import { makeError, ZERO_ADDRESS } from "../../../utils/index.js";
-import { PutCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
 import dotenv from "dotenv";
 import { defaults, badges, limits } from "../../../config/index.js";
 import {
@@ -21,6 +21,7 @@ import {
   descriptionValidator,
 } from "../../../utils/index.js";
 import { CampaignMongoDBModel } from "../../../mongodb-models/index.js";
+import { getCampaign, getProfile } from "../../helpers/index.js";
 dotenv.config();
 
 const { DYNAMODB_TABLE_NAME } = process.env;
@@ -60,34 +61,6 @@ const getMaxBadge = async (badgeContract, owner) => {
   return null;
 };
 
-const getCampaign = async (dynamoDB, handler, campaignId) => {
-  // Check if the campaign already exists in the database
-  const paramsGet = {
-    TableName: DYNAMODB_TABLE_NAME,
-    Key: {
-      pk: `profile#${handler}`,
-      sk: `campaign#${campaignId}`,
-    },
-  };
-
-  // Get the campaign from the database
-  const command = new GetCommand(paramsGet);
-  return dynamoDB.send(command);
-};
-
-const getProfile = async (dynamoDB, handler) => {
-  const params = {
-    TableName: DYNAMODB_TABLE_NAME,
-    Key: {
-      pk: `profile#${handler}`,
-      sk: `profile#${handler}`,
-    },
-  };
-
-  const command = new GetCommand(params);
-  return dynamoDB.send(command);
-};
-
 export const createCampaign = async (request, { lambdaContext }) => {
   try {
     const { id } = request;
@@ -111,6 +84,9 @@ export const createCampaign = async (request, { lambdaContext }) => {
 
     const handler = campaignData?.handler?.toLowerCase?.();
     const owner = campaignData?.owner;
+    const createdAt = new Date(
+      campaignData.createdAt.toNumber() * 1000
+    ).toString();
 
     // Validate the ipfs contentUri
     const {
@@ -205,8 +181,8 @@ export const createCampaign = async (request, { lambdaContext }) => {
         status: defaults.CAMPAIGN_STATUS,
         location: JSON.stringify(location.geometry),
         image: content.image,
-        createdAt: campaignData.createdAt.toString(),
-        updatedAt: campaignData.updatedAt.toString(),
+        createdAt: createdAt,
+        updatedAt: createdAt,
 
         // GSI1 - Campaigns by owner and query by status and featured
         gsi1pk: `CAMPAIGN_OWNER#${owner}`,
@@ -218,11 +194,11 @@ export const createCampaign = async (request, { lambdaContext }) => {
 
         // GSI3 - Campaigns by status
         gsi3pk: `CAMPAIGN_STATUS#${defaults.CAMPAIGN_STATUS}`,
-        gsi3sk: campaignData.createdAt.toString(),
+        gsi3sk: createdAt,
 
         // GSI4 - Campaigns by featured
         gsi4pk: `CAMPAIGN_FEATURED#${defaults.FEATURED_CAMPAIGN}`,
-        gsi4sk: campaignData.createdAt.toString(),
+        gsi4sk: createdAt,
       },
     };
 
@@ -244,8 +220,8 @@ export const createCampaign = async (request, { lambdaContext }) => {
         status: defaults.CAMPAIGN_STATUS,
         image: content.image,
         location: location.geometry,
-        createdAt: new Date(campaignData.createdAt * 1000),
-        updatedAt: new Date(campaignData.updatedAt * 1000),
+        createdAt: createdAt,
+        updatedAt: createdAt,
       });
 
       return {

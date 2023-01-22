@@ -23,6 +23,8 @@ const errors = {
   CampaignDoesNotExist: "Campaign does not exist",
   CampaignIsNotAvailable: "Campaign is not available",
   AreaTooLarge: "The selected area is too large for your badge",
+  NotJoinedCampaignInProfileContract:
+    "You have not joined this campaign in the profile smart contract",
 };
 
 export const makeError = (code) => {

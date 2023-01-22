@@ -1,6 +1,7 @@
 import { createCampaign } from "./createCampaign.js";
 import { getCampaigns } from "./getCampaigns.js";
 import { getCampaign } from "./getCampaign.js";
+import { joinCampaign } from "./joinCampaign.js";
 
 export const campaignsResolvers = {
   Query: {
@@ -10,5 +11,6 @@ export const campaignsResolvers = {
   Mutation: {
     createCampaign: (_, { request }, context) =>
       createCampaign(request, context),
+    joinCampaign: (_, { request }, context) => joinCampaign(request, context),
   },
 };

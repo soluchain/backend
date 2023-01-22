@@ -6,7 +6,6 @@ export const enums = {
     PENDING: "pending",
     DELETED: "deleted",
   },
-
   PROFILE_STATUS_MONGODB: ["active", "banned", "pending", "deleted"],
 
   // Campaign
@@ -16,6 +15,11 @@ export const enums = {
     PENDING: "pending",
     DELETED: "deleted",
   },
-
   CAMPAIGN_STATUS_MONGODB: ["active", "banned", "pending", "deleted"],
+
+  // Notification
+  NOTIFICATION_TYPE: {
+    JOIN_CAMPAIGN: "join-campaign",
+    FOLLOW_PROFILE: "follow-profile",
+  },
 };
