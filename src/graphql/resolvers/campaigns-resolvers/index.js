@@ -2,11 +2,14 @@ import { createCampaign } from "./createCampaign.js";
 import { getCampaigns } from "./getCampaigns.js";
 import { getCampaign } from "./getCampaign.js";
 import { joinCampaign } from "./joinCampaign.js";
+import { getParticipants } from "./getParticipants.js";
 
 export const campaignsResolvers = {
   Query: {
     getCampaign: (_, { request }, context) => getCampaign(request, context),
     getCampaigns: (_, { request }, context) => getCampaigns(request, context),
+    getParticipants: (_, { request }, context) =>
+      getParticipants(request, context),
   },
   Mutation: {
     createCampaign: (_, { request }, context) =>

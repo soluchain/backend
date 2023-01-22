@@ -4,7 +4,11 @@ Parameters:
   request: CampaignsQueryRequest!
 */
 
-import { makeError } from "../../../utils/index.js";
+import {
+  encodeNextToken,
+  decodeNextToken,
+  makeError,
+} from "../../../utils/index.js";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import dotenv from "dotenv";
 import { enums, limits } from "../../../config/index.js";
@@ -35,9 +39,7 @@ export const getCampaigns = async (request, { lambdaContext }) => {
 
     // Decode the nextToken if it exists and convert it to an object
     // that can be used in the DynamoDB query
-    const decodedNextToken = nextToken
-      ? JSON.parse(Buffer.from(nextToken, "base64").toString("ascii"))
-      : null;
+    const decodedNextToken = decodeNextToken(nextToken);
 
     // get the campaigns by status
     const params = {
@@ -138,9 +140,7 @@ export const getCampaigns = async (request, { lambdaContext }) => {
 
     // Encode the nextToken so that it can be sent to the client
     // and used in the next query
-    const nextTokenEncoded = data.LastEvaluatedKey
-      ? Buffer.from(JSON.stringify(data.LastEvaluatedKey)).toString("base64")
-      : null;
+    const nextTokenEncoded = encodeNextToken(data.LastEvaluatedKey);
 
     return {
       items: data.Items,

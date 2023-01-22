@@ -33,6 +33,19 @@ export const campaignType = gql`
     error: errorType
   }
 
+  type CampaignParticipantType {
+    campaign: CampaignType
+    recipient: ProfileType
+    profile: ProfileType
+    createdAt: String
+  }
+
+  type CampaignParticipantsResponse {
+    items: [CampaignParticipantType]
+    nextToken: String
+    error: errorType
+  }
+
   input SingleCampaignQueryRequest {
     id: BigInt!
     handler: String!
@@ -62,5 +75,11 @@ export const campaignType = gql`
     campaignId: BigInt!
     handler: String!
     participantHandler: String!
+  }
+
+  input CampaignParticipantsQueryRequest {
+    campaignId: BigInt!
+    limit: Int
+    nextToken: String
   }
 `;

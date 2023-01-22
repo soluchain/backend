@@ -27,6 +27,18 @@ const profileContract = new ethers.Contract(
 const profile_content_uri =
   "https://soluchain.infura-ipfs.io/ipfs/QmUb8LDuYjUhpyUYtjE12kBiUMEnoxLwa8dQoZJHVYenEp";
 
+const JOIN_CAMPAIGN_MUTATION = gql`
+  mutation joinCampaign($request: JoinCampaignInput!) {
+    joinCampaign(request: $request) {
+      status
+      error {
+        code
+        message
+      }
+    }
+  }
+`;
+
 const createCampaignOnChain = async (
   handler,
   campaignContentUri,
@@ -73,6 +85,7 @@ const createCampaignOnDB = async (
           handler
           title
           description
+          image
           status
           contentUri
         }
@@ -100,9 +113,21 @@ const joinCampaignOnChain = async (campaignId, participantHandler) => {
   return true;
 };
 
+const joinCampaignOnDB = async (campaignId, handler, participantHandler) => {
+  await joinCampaignOnChain(campaignId, participantHandler);
+  return await fetchGQL(JOIN_CAMPAIGN_MUTATION, {
+    request: {
+      campaignId,
+      handler,
+      participantHandler,
+    },
+  });
+};
+
 module.exports = {
   createCampaignOnChain,
   getCampaignOnChain,
   createCampaignOnDB,
   joinCampaignOnChain,
+  joinCampaignOnDB,
 };

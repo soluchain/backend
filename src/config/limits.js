@@ -24,6 +24,9 @@ export const limits = {
     "h5",
     "h6",
   ],
-  MAX_PROFILES_PER_PAGE: 20,
   MAX_CAMPAIGNS_PER_PAGE: 20,
+  MAX_PARTICIPANTS_PER_PAGE: 50,
+
+  // Profile
+  MAX_PROFILES_PER_PAGE: 20,
 };
