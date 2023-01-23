@@ -72,36 +72,50 @@ const createCampaignOnDB = async (
   campaignContentUri,
   profileContentUri = profile_content_uri
 ) => {
-  // First, create a campaign on-chain
-  const campaignId = await createCampaignOnChain(handler, campaignContentUri);
+  try {
+    // First, create a campaign on-chain
+    const campaignId = await createCampaignOnChain(
+      handler,
+      campaignContentUri,
+      profileContentUri
+    );
 
-  // Then, create a campaign on DB
-  const CREATE_CAMPAIGN_MUTATION = gql`
-    mutation createCampaign($request: CreateCampaignInput!) {
-      createCampaign(request: $request) {
-        campaign {
-          owner
-          id
-          handler
-          title
-          description
-          image
-          status
-          contentUri
-        }
-        error {
-          code
-          message
+    // Then, create a campaign on DB
+    const CREATE_CAMPAIGN_MUTATION = gql`
+      mutation createCampaign($request: CreateCampaignInput!) {
+        createCampaign(request: $request) {
+          campaign {
+            owner
+            id
+            handler
+            title
+            description
+            image
+            status
+            contentUri
+            latestParticipants {
+              id
+              handler
+              image
+              bio
+            }
+          }
+          error {
+            code
+            message
+          }
         }
       }
-    }
-  `;
+    `;
 
-  const data = await fetchGQL(CREATE_CAMPAIGN_MUTATION, {
-    request: { id: campaignId },
-  });
+    const data = await fetchGQL(CREATE_CAMPAIGN_MUTATION, {
+      request: { id: campaignId },
+    });
 
-  return data?.createCampaign;
+    return data?.createCampaign;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const joinCampaignOnChain = async (campaignId, participantHandler) => {

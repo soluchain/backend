@@ -74,6 +74,18 @@ const CampaignSchema = new Schema({
       required: true,
     },
   },
+  latestParticipants: {
+    type: [
+      {
+        id: String,
+        handler: String,
+        image: String,
+        bio: String,
+      },
+    ],
+
+    default: [],
+  },
   createdAt: {
     type: Date,
     required: true,

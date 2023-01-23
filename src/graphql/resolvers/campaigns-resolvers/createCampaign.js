@@ -96,7 +96,11 @@ export const createCampaign = async (request, { lambdaContext }) => {
     } = await ipfsUrlValidator(campaignData.contentUri, "campaign");
 
     if (!content) {
-      return ipfsUrlError || makeError("InvalidContentUri");
+      return (
+        {
+          error: ipfsUrlError,
+        } || makeError("InvalidContentUri")
+      );
     }
 
     // Validate the campaign title
@@ -181,6 +185,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
         status: defaults.CAMPAIGN_STATUS,
         location: JSON.stringify(location.geometry),
         image: content.image,
+        latestParticipants: [],
         createdAt: createdAt,
         updatedAt: createdAt,
 

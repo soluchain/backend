@@ -4,6 +4,7 @@ const errors = {
   MismatchOwner: "Mismatch owner",
 
   // Generic
+  InvalidContentUri: "Invalid content uri",
   InvalidParameters: "Invalid parameters",
   InternalServerError: "Internal server error",
   LimitTooLarge: "Limit too large",
@@ -21,10 +22,13 @@ const errors = {
 
   // Campaign
   CampaignDoesNotExist: "Campaign does not exist",
+  CampaignAlreadyExists: "Campaign already exists",
   CampaignIsNotAvailable: "Campaign is not available",
+  CampaignCreationFailed: "Campaign creation failed",
   AreaTooLarge: "The selected area is too large for your badge",
   NotJoinedCampaignInProfileContract:
     "You have not joined this campaign in the profile smart contract",
+  FailedToJoinCampaign: "Failed to join campaign",
 };
 
 export const makeError = (code) => {

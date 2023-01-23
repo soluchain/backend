@@ -8,7 +8,7 @@ Parameters:
 */
 
 import { makeError } from "../../../utils/index.js";
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import dotenv from "dotenv";
 import { enums } from "../../../config/index.js";
 import { getCampaign, getProfile } from "../../helpers/index.js";
@@ -51,7 +51,14 @@ export const joinCampaign = async (request, { lambdaContext }) => {
 
     // Insert the follow data into the database if the doc does not exist
     const createdAt = Date.now().toString();
-    const paramsPut = {
+    const denormalizedParticipant = JSON.stringify({
+      id: participantData.id,
+      handler: participantData.handler,
+      image: participantData.image,
+      bio: participantData.bio,
+    });
+
+    const participantParamsPut = {
       TableName: DYNAMODB_TABLE_NAME,
       Item: {
         pk: `profile#${participantHandler}`,
@@ -66,12 +73,7 @@ export const joinCampaign = async (request, { lambdaContext }) => {
 
         recipient: campaignGet.Item.profile,
 
-        profile: JSON.stringify({
-          id: participantData.id,
-          handler: participantData.handler,
-          image: participantData.image,
-          bio: participantData.bio,
-        }),
+        profile: denormalizedParticipant,
 
         notificationType: enums.NOTIFICATION_TYPE.JOIN_CAMPAIGN,
 
@@ -93,13 +95,49 @@ export const joinCampaign = async (request, { lambdaContext }) => {
         "attribute_not_exists(pk) AND attribute_not_exists(sk)",
     };
 
-    const command = new PutCommand(paramsPut);
-    await dynamoDB.send(command);
+    const participantCommand = new PutCommand(participantParamsPut);
+    const participantDataPut = await dynamoDB.send(participantCommand);
+
+    if (!participantDataPut.$metadata.httpStatusCode === 200) {
+      return makeError("FailedToJoinCampaign");
+    }
+
+    // Add participant to the latestParticipants array of the campaign that max size is 10 items
+    const participants = campaignGet.Item.latestParticipants || [];
+
+    if (participants.length === 10) {
+      participants.shift();
+
+      participants.push(denormalizedParticipant);
+    } else {
+      participants.push(denormalizedParticipant);
+    }
+
+    const campaignParamsUpdate = {
+      TableName: DYNAMODB_TABLE_NAME,
+      Key: {
+        pk: `profile#${handler}`,
+        sk: `campaign#${campaignId}`,
+      },
+      UpdateExpression: "set latestParticipants = :latestParticipants",
+      ExpressionAttributeValues: {
+        ":latestParticipants": participants,
+      },
+      ReturnValues: "ALL_NEW",
+    };
+
+    const campaignCommand = new UpdateCommand(campaignParamsUpdate);
+    const campaignDataUpdate = await dynamoDB.send(campaignCommand);
+
+    if (!campaignDataUpdate.$metadata.httpStatusCode === 200) {
+      return makeError("FailedToJoinCampaign");
+    }
 
     return {
       status: "success",
     };
   } catch (error) {
+    console.log(error);
     return makeError(error.message);
   }
 };
