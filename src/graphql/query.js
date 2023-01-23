@@ -12,5 +12,8 @@ export const query = gql`
     getParticipants(
       request: CampaignParticipantsQueryRequest!
     ): CampaignParticipantsResponse
+    getJoinedCampaigns(
+      request: UserJoinedCampaignsQueryRequest!
+    ): CampaignParticipantsResponse
   }
 `;

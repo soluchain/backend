@@ -33,24 +33,6 @@ export const campaignType = gql`
     error: errorType
   }
 
-  type CampaignParticipantType {
-    campaign: CampaignType
-    recipient: ProfileType
-    profile: ProfileType
-    createdAt: String
-  }
-
-  type CampaignParticipantsResponse {
-    items: [CampaignParticipantType]
-    nextToken: String
-    error: errorType
-  }
-
-  input SingleCampaignQueryRequest {
-    id: BigInt!
-    handler: String!
-  }
-
   input LocationInput {
     lat: Float
     lng: Float
@@ -79,6 +61,30 @@ export const campaignType = gql`
 
   input CampaignParticipantsQueryRequest {
     campaignId: BigInt!
+    limit: Int
+    nextToken: String
+  }
+
+  type CampaignParticipantType {
+    campaign: CampaignType
+    recipient: ProfileType
+    profile: ProfileType
+    createdAt: String
+  }
+
+  type CampaignParticipantsResponse {
+    items: [CampaignParticipantType]
+    nextToken: String
+    error: errorType
+  }
+
+  input SingleCampaignQueryRequest {
+    id: BigInt!
+    handler: String!
+  }
+
+  input UserJoinedCampaignsQueryRequest {
+    handler: String!
     limit: Int
     nextToken: String
   }
