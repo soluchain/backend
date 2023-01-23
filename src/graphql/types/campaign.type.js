@@ -19,6 +19,7 @@ export const campaignType = gql`
     description: String
     image: String
     latestParticipants: [ProfileType]
+    participantCount: Int
     createdAt: String
     updatedAt: String
   }

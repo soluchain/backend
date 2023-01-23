@@ -45,6 +45,7 @@ const GET_CAMPAIGN_QUERY = gql`
           image
           bio
         }
+        participantCount
       }
       error {
         code
@@ -144,6 +145,7 @@ describe("joinCampaign", () => {
     expect(error).toBeNull();
     expect(campaign?.latestParticipants).toHaveLength(1);
     expect(campaign?.latestParticipants[0].handler).toBe(profile_2.handler);
+    expect(campaign?.participantCount).toBe(1);
   });
 
   test("should add another participant to the latest participants list of the campaign", async () => {
@@ -170,6 +172,7 @@ describe("joinCampaign", () => {
     expect(campaign?.latestParticipants).toHaveLength(2);
     expect(campaign?.latestParticipants[0].handler).toBe(profile_2.handler);
     expect(campaign?.latestParticipants[1].handler).toBe(profile_3.handler);
+    expect(campaign?.participantCount).toBe(2);
   });
 
   test("should return error if campaign does not exist", async () => {

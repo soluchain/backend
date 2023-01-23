@@ -119,9 +119,11 @@ export const joinCampaign = async (request, { lambdaContext }) => {
         pk: `profile#${handler}`,
         sk: `campaign#${campaignId}`,
       },
-      UpdateExpression: "set latestParticipants = :latestParticipants",
+      UpdateExpression:
+        "set latestParticipants = :latestParticipants, participantCount = participantCount + :newParticipantCount",
       ExpressionAttributeValues: {
         ":latestParticipants": participants,
+        ":newParticipantCount": 1,
       },
       ReturnValues: "ALL_NEW",
     };

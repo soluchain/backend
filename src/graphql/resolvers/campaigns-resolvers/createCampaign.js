@@ -186,6 +186,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
         location: JSON.stringify(location.geometry),
         image: content.image,
         latestParticipants: [],
+        participantCount: 0,
         createdAt: createdAt,
         updatedAt: createdAt,
 
