@@ -45,6 +45,10 @@ const CampaignSchema = new Schema({
     type: String,
     required: true,
   },
+  purpose: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,

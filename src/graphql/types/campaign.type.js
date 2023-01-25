@@ -16,6 +16,7 @@ export const campaignType = gql`
     status: String
     featured: Boolean
     title: String
+    purpose: String
     description: String
     image: String
     latestParticipants: [ProfileType]

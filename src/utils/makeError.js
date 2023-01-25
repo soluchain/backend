@@ -4,6 +4,7 @@ const errors = {
   MismatchOwner: "Mismatch owner",
 
   // Generic
+  AnUnexpectedErrorHasOccurred: "An unexpected error has occurred",
   InvalidContentUri: "Invalid content uri",
   InvalidParameters: "Invalid parameters",
   InternalServerError: "Internal server error",
@@ -21,6 +22,7 @@ const errors = {
   ProfileAlreadyExists: "Profile already exists",
 
   // Campaign
+  InvalidPurpose: "Invalid purpose",
   CampaignDoesNotExist: "Campaign does not exist",
   CampaignAlreadyExists: "Campaign already exists",
   CampaignIsNotAvailable: "Campaign is not available",
@@ -31,7 +33,7 @@ const errors = {
   FailedToJoinCampaign: "Failed to join campaign",
 };
 
-export const makeError = (code) => {
+export const makeError = (code = "AnUnexpectedErrorHasOccurred") => {
   let message;
 
   if (errors[code]) {

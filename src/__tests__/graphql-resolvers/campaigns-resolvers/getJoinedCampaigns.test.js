@@ -64,7 +64,7 @@ const profile_valid_content_uri_1 =
 const profile_valid_content_uri_2 =
   "https://soluchain.infura-ipfs.io/ipfs/QmQFVVsXp7PJSVQxcmuyLGXtPKQVLqb65Ztuia2328pD8A";
 const campaign_valid_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmS942X7HR8Sfr5vVNydfmz4d23pJmtZawmSnoGMpfcWwQ";
+  "https://soluchain.infura-ipfs.io/ipfs/QmTPi2ZWWXJnobsfmuqmgefN2w2ffSykyue3KcJsCrRtEP";
 
 describe("getJoinedCampaigns", () => {
   let profile_1;

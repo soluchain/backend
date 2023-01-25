@@ -43,7 +43,7 @@ const too_long_description_content_uri =
   "https://soluchain.infura-ipfs.io/ipfs/QmfVAYaf3Wb9Fs7zoLdWu3WL8y7Vd7VZK5z96LXvaHqxZi";
 
 const valid_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmS942X7HR8Sfr5vVNydfmz4d23pJmtZawmSnoGMpfcWwQ";
+  "https://soluchain.infura-ipfs.io/ipfs/QmTPi2ZWWXJnobsfmuqmgefN2w2ffSykyue3KcJsCrRtEP";
 
 describe("createCampaign", () => {
   test("should revert if campaign is NOT created on-chain", async () => {

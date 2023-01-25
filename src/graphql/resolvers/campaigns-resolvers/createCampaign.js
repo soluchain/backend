@@ -18,6 +18,7 @@ import {
   getUserBadgesHelper,
   geoJsonAreaValidator,
   titleValidator,
+  purposeValidator,
   descriptionValidator,
 } from "../../../utils/index.js";
 import { CampaignMongoDBModel } from "../../../mongodb-models/index.js";
@@ -114,6 +115,17 @@ export const createCampaign = async (request, { lambdaContext }) => {
       return { error: titleError };
     }
 
+    // Validate the campaign purpose
+    const { isValid: isValidPurpose, error: purposeError } = purposeValidator(
+      content.purpose,
+      limits.MIN_CAMPAIGN_PURPOSE_LENGTH,
+      limits.MAX_CAMPAIGN_PURPOSE_LENGTH
+    );
+
+    if (!isValidPurpose) {
+      return { error: purposeError };
+    }
+
     // Validate the campaign description
     const { isValid: isValidDescription, error: descriptionError } =
       descriptionValidator(
@@ -181,6 +193,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
         profile: JSON.stringify(denormalizedProfileData),
         contentUri: campaignData.contentUri,
         title: content.title,
+        purpose: content.purpose,
         description: content.description,
         status: defaults.CAMPAIGN_STATUS,
         location: JSON.stringify(location.geometry),
@@ -222,6 +235,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
         profile: denormalizedProfileData,
         contentUri: campaignData.contentUri,
         title: content.title,
+        purpose: content.purpose,
         description: content.description,
         status: defaults.CAMPAIGN_STATUS,
         image: content.image,

@@ -41,6 +41,7 @@ export const ipfsUrlValidator = async (uri, entity) => {
       if (
         !content.title ||
         !content.description ||
+        !content.purpose ||
         !content.image ||
         !content.image.startsWith(IPFS_PATH) ||
         !content.image.replace(IPFS_PATH, "").match(/^[a-zA-Z0-9]+$/) ||

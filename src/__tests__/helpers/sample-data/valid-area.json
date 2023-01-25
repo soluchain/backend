@@ -1,21 +1,19 @@
 {
-  "title": "How can we make our city more sustainable?",
-  "description": "We want to make our city more sustainable. We want to know what you think about this. Please share your ideas with us. We will use your ideas to make our city more sustainable.",
-  "image": "https://soluchain.infura-ipfs.io/ipfs/QmeGzAwWuA5Ct4zPWBkRiaxvyXjdgfWUjfHDxMqUw2PeD9",
+  "title": "Antalya Beaches: A Community Effort for Cleanliness and Sustainability",
+  "purpose": "To raise awareness and inspire action to keep Antalya's beaches clean and promote sustainable tourism through community clean-up events, education, and a pledge to reduce littering and promote sustainable practices.",
+  "description": "Antalya is a beautiful city that is known for its beaches. The beaches are an important part of the city and it's essential that we keep them clean, and promote sustainable tourism. That's why we're launching a campaign called <b>Antalya Beaches: A Community Effort for Cleanliness and Sustainability</b> to raise awareness and encourage everyone to take action in keeping the beaches clean. Our goal is to create a sense of community and personal responsibility among visitors and citizens to keep Antalya's beaches clean and beautiful. The campaign will include community clean-up events where citizens and tourists can come together and clean up the beaches. These events will be held regularly throughout the year to ensure that the beaches are kept clean all the time. We will also be providing education and information about the negative impact of littering and unsustainable practices on the environment and how to properly dispose of waste and promote sustainable practices. Additionally, we will be promoting the use of reusable water bottles and bags, and encourage visitors to respect wildlife and their habitats. We also encourage people to take the pledge to reduce littering, promote sustainable practices, and keep the beaches clean. We will be promoting the campaign through various means such as social media, local newspapers, billboards and informational brochures distributed on the beaches. This will help reach a wide audience and create awareness about the importance of keeping the beaches clean and promoting sustainable practices. We also plan to collaborate with local businesses and organizations to support the campaign and create a greater impact. Join us in this effort and let's make Antalya's beaches cleaner, more enjoyable, and sustainable for everyone. By working together, we can ensure that Antalya's beaches remain a source of pride for the city and continue to attract tourists while preserving its natural beauty for future generations.",
+  "image": "https://soluchain.infura-ipfs.io/ipfs/QmZ16UXbCaqR4e1umb8vnGr8tUt7Xyj3ATeAS1tJK4B9Qm",
   "location": {
     "type": "Feature",
     "properties": {},
     "geometry": {
       "coordinates": [
         [
-          [36.86187072010408, 30.789969658477304],
-          [36.85852683082385, 30.79202667298435],
-          [36.85361522818074, 30.789773752333787],
-          [36.854973788147504, 30.7979365083159],
-          [36.85622782207004, 30.795781540736556],
-          [36.85648907654789, 30.79813241445936],
-          [36.86218420222326, 30.798948690057358],
-          [36.86187072010408, 30.789969658477304]
+          [36.84554710766511, 30.80433190499309],
+          [36.85309083805896, 30.896553772079187],
+          [36.855058645305135, 30.896348834595784],
+          [36.84817109831546, 30.80576646736887],
+          [36.84554710766511, 30.80433190499309]
         ]
       ],
       "type": "Polygon"

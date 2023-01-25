@@ -32,7 +32,7 @@ describe("getCampaigns", () => {
   // create 10 campaigns
   beforeAll(async () => {
     const contentUri =
-      "https://soluchain.infura-ipfs.io/ipfs/QmS942X7HR8Sfr5vVNydfmz4d23pJmtZawmSnoGMpfcWwQ";
+      "https://soluchain.infura-ipfs.io/ipfs/QmTPi2ZWWXJnobsfmuqmgefN2w2ffSykyue3KcJsCrRtEP";
     for (let i = 0; i < 5; i++) {
       const handler = getValidHandlerRandom();
       await createCampaignOnDB(handler, contentUri);
