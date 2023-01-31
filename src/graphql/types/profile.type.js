@@ -29,13 +29,13 @@ export const profileType = gql`
 
   type ProfileResponse {
     profile: ProfileType
-    error: errorType
+    error: ErrorType
   }
 
   type ProfilesResponse {
     items: [ProfileType]
     nextToken: String
-    error: errorType
+    error: ErrorType
   }
 
   input SingleProfileQueryRequest {

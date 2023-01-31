@@ -27,13 +27,13 @@ export const campaignType = gql`
 
   type CampaignResponse {
     campaign: CampaignType
-    error: errorType
+    error: ErrorType
   }
 
   type CampaignsResponse {
     items: [CampaignType]
     nextToken: String
-    error: errorType
+    error: ErrorType
   }
 
   input LocationInput {
@@ -78,7 +78,7 @@ export const campaignType = gql`
   type CampaignParticipantsResponse {
     items: [CampaignParticipantType]
     nextToken: String
-    error: errorType
+    error: ErrorType
   }
 
   input SingleCampaignQueryRequest {

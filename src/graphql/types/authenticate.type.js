@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 export const authenticateType = gql`
   type AuthenticateResponse {
     token: String
-    error: errorType
+    error: ErrorType
   }
 
   input AuthenticateInput {
