@@ -42,7 +42,7 @@ export const profileType = gql`
     handler: String
   }
 
-  input ProfilesQueryInput {
+  input ProfilesQueryRequest {
     owner: Address
     featured: Boolean
     orderBy: String

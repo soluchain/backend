@@ -41,7 +41,7 @@ export const campaignType = gql`
     lng: Float
   }
 
-  input CampaignsQueryInput {
+  input CampaignsQueryRequest {
     owner: Address
     profile: String
     orderBy: String

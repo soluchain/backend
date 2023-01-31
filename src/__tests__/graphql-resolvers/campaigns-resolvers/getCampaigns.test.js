@@ -4,7 +4,7 @@ const { getValidHandlerRandom } = require("../../helpers/data-generator");
 const { createCampaignOnDB } = require("../../helpers/index.js");
 
 const GET_CAMPAIGNS_QUERY = gql`
-  query getCampaigns($request: CampaignsQueryInput!) {
+  query getCampaigns($request: CampaignsQueryRequest!) {
     getCampaigns(request: $request) {
       items {
         id
