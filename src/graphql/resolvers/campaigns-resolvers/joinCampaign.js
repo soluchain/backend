@@ -90,6 +90,10 @@ export const joinCampaign = async (request, { lambdaContext }) => {
         // participants of the campaign
         gsi3pk: `CAMPAIGN_PARTICIPANTS#${campaignId}`,
         gsi3sk: createdAt,
+
+        // activities of the user
+        gsi4pk: `PROFILE_ACTIVITIES#${participantHandler}`,
+        gsi4sk: createdAt,
       },
       ConditionExpression:
         "attribute_not_exists(pk) AND attribute_not_exists(sk)",

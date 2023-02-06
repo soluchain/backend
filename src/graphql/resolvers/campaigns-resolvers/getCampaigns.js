@@ -90,7 +90,7 @@ export const getCampaigns = async (request, { lambdaContext }) => {
     // Filter by featured
     // gsi4pk: `CAMPAIGN_FEATURED#${defaults.FEATURED_CAMPAIGN}`,
     // gsi4sk: `CAMPAIGN_CREATED_AT#${campaignData.createdAt}`,
-    if (featured) {
+    if (typeof featured === "boolean") {
       params.IndexName = "gsi4";
       params.KeyConditionExpression = "gsi4pk = :gsi4pk";
       params.ExpressionAttributeValues = {
@@ -122,10 +122,10 @@ export const getCampaigns = async (request, { lambdaContext }) => {
     }
 
     // filter by orderBy
-    if (orderBy === "latest") {
-      params.ScanIndexForward = false;
-    } else if (orderBy === "oldest") {
+    if (orderBy === "oldest") {
       params.ScanIndexForward = true;
+    } else {
+      params.ScanIndexForward = false;
     }
 
     // If there is a nextToken, add it to the query
@@ -141,6 +141,18 @@ export const getCampaigns = async (request, { lambdaContext }) => {
     // Encode the nextToken so that it can be sent to the client
     // and used in the next query
     const nextTokenEncoded = encodeNextToken(data.LastEvaluatedKey);
+
+    //  Need to be parsed
+    // latestParticipants is a array of JSON strings
+    // profile is a JSON string
+    // location is a JSON string
+    data.Items.forEach((item) => {
+      item.profile = JSON.parse(item.profile);
+      item.location = JSON.parse(item.location);
+      item.latestParticipants = item.latestParticipants?.map?.((participant) =>
+        JSON.parse(participant)
+      );
+    });
 
     return {
       items: data.Items,

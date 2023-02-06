@@ -195,6 +195,7 @@ export const createCampaign = async (request, { lambdaContext }) => {
         title: content.title,
         purpose: content.purpose,
         description: content.description,
+        featured: defaults.FEATURED_CAMPAIGN,
         status: defaults.CAMPAIGN_STATUS,
         location: JSON.stringify(location.geometry),
         image: content.image,
