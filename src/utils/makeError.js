@@ -13,6 +13,7 @@ const errors = {
   InvalidTitle: "Invalid title",
   InvalidDescription: "Invalid description",
   InvalidData: "Invalid data",
+  InvalidTweet: "Invalid tweet",
 
   // Badge
   InsufficientBadge: "Insufficient badge",

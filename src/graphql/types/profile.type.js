@@ -53,4 +53,9 @@ export const profileType = gql`
   input CreateProfileInput {
     handler: String!
   }
+
+  input VerifyWhitelistInput {
+    handler: String!
+    tweetUrl: String!
+  }
 `;

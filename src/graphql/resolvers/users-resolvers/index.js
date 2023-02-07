@@ -1,6 +1,7 @@
 import { createProfile } from "./createProfile.js";
 import { getProfile } from "./getProfile.js";
 import { getProfiles } from "./getProfiles.js";
+import { verifyWhitelist } from "./verifyWhitelist.js";
 
 export const usersResolvers = {
   Query: {
@@ -8,6 +9,8 @@ export const usersResolvers = {
     getProfiles: (_, { request }, context) => getProfiles(request, context),
   },
   Mutation: {
+    verifyWhitelist: (_, { request }, context) =>
+      verifyWhitelist(request, context),
     createProfile: (_, { request }, context) => createProfile(request, context),
   },
 };
