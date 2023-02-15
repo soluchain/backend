@@ -7,7 +7,7 @@ const { AUTH_JWT_SECRET } = process.env;
 
 export const genetateJWT = (payload) => {
   return jwt.sign(payload, AUTH_JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "1d",
   });
 };
 

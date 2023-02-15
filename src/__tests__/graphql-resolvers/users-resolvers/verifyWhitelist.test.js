@@ -1,5 +1,6 @@
 const { gql } = require("graphql-request");
 const siwe = require("siwe");
+const jwt = require("jsonwebtoken");
 const { fetchGQL } = require("../../helpers/fetchGQL");
 const { getValidHandlerRandom } = require("../../helpers/data-generator");
 const dotenv = require("dotenv");
@@ -69,8 +70,17 @@ describe("verifyWhitelist", () => {
       // const signature = await testUser.signer.signMessage(message.toString());
 
       const message = siweMessage.prepareMessage();
-
       const signature = await testUser.signer.signMessage(message.toString());
+
+      // generate jwt token
+
+      const accessToken = jwt.sign(
+        {
+          message: JSON.stringify(message),
+          signature: signature,
+        },
+        process.env.AUTH_JWT_SECRET
+      );
 
       const { verifyWhitelist } = await fetchGQL(
         VERIFY_WHITELIST_MUTATION,
@@ -78,8 +88,7 @@ describe("verifyWhitelist", () => {
           request: { handler, tweetUrl: TWEET_URL },
         },
         {
-          signature: signature,
-          message: JSON.stringify(message),
+          Authorization: accessToken,
         }
       );
 

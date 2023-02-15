@@ -210,25 +210,6 @@
         "internalType": "string",
         "name": "_handler",
         "type": "string"
-      }
-    ],
-    "name": "checkInvalidHandler",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "pure",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_handler",
-        "type": "string"
       },
       {
         "internalType": "string",
@@ -460,6 +441,25 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_handler",
+        "type": "string"
+      }
+    ],
+    "name": "isValidHandler",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "pure",
     "type": "function"
   },
   {

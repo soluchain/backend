@@ -1,5 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateLambdaHandler } from "@as-integrations/aws-lambda";
+import jwt from "jsonwebtoken";
 import { SiweMessage } from "siwe";
 import { ethers } from "ethers";
 import mongoose from "mongoose";
@@ -67,16 +68,26 @@ const ctx = async ({ event, context }) => {
     // headers
     // context.signer = event.headers.signer || null;
 
-    if (event.headers.signature && event.headers.message) {
-      // validate signature
-      const msg = JSON.parse(event.headers.message);
-      const siweMessage = new SiweMessage(msg.toString());
-      const signature = event.headers.signature;
+    if (event.headers.authorization) {
+      // decode jwt token
+      const token = event.headers.authorization;
+      const decoded = jwt.decode(token);
+      if (decoded) {
+        // validate signature
+        try {
+          const { message, signature } = decoded;
+          const msg = JSON.parse(message);
 
-      const validated = await siweMessage.validate(signature);
+          const siweMessage = new SiweMessage(msg.toString());
 
-      if (validated) {
-        context.caller = validated;
+          const validated = await siweMessage.validate(signature);
+
+          if (validated) {
+            context.caller = validated;
+          }
+        } catch (error) {
+          console.log("error", error);
+        }
       }
     }
 
@@ -91,7 +102,6 @@ const ctx = async ({ event, context }) => {
 
     context.dynamoDB = dynamoDB;
   } catch (error) {
-    console.log("error", error);
   } finally {
     return {
       lambdaEvent: event,
