@@ -6,6 +6,7 @@ export const mutation = gql`
     authenticate(request: AuthenticateInput!): AuthenticateResponse
 
     # Profile
+    verifyWhitelist(request: VerifyWhitelistInput!): DataResponse
     createProfile(request: CreateProfileInput!): ProfileResponse
 
     # Campaign

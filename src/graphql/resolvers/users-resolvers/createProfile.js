@@ -46,6 +46,7 @@ export const createProfile = async (request, { lambdaContext }) => {
 
     // Isert the new profile into the database ONLY if the profile EXISTS in the smart contract
     const profileData = await profileContract.getProfile(handler);
+
     if (profileData.handler === "" || profileData.owner === ZERO_ADDRESS) {
       return makeError("ProfileDoesNotExist");
     }
@@ -59,14 +60,18 @@ export const createProfile = async (request, { lambdaContext }) => {
     } = await ipfsUrlValidator(profileData.contentUri, "profile");
 
     if (!content) {
-      return ipfsUrlError || makeError("InvalidContentUri");
+      return ipfsUrlError
+        ? {
+            error: ipfsUrlError,
+          }
+        : makeError("InvalidContentUri");
     }
 
     // Check if profile already exists
     const profileGet = await getProfile(dynamoDB, { pk, sk });
 
     // check if handler already exists
-    if (profileGet.Item) {
+    if (profileGet?.Item) {
       return makeError("ProfileAlreadyExists");
     }
 
@@ -127,6 +132,7 @@ export const createProfile = async (request, { lambdaContext }) => {
 
     return makeError("InternalServerError");
   } catch (error) {
+    console.log(error);
     return {
       error,
     };
