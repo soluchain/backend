@@ -8,6 +8,7 @@ export const mutation = gql`
     # Profile
     verifyWhitelist(request: VerifyWhitelistInput!): DataResponse
     createProfile(request: CreateProfileInput!): ProfileResponse
+    setDefaultProfile(request: SetDefaultProfileInput!): DataResponse
 
     # Campaign
     createCampaign(request: CreateCampaignInput!): CampaignResponse

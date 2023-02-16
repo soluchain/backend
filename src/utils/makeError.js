@@ -21,6 +21,8 @@ const errors = {
   // Profile
   ProfileDoesNotExist: "Profile does not exist",
   ProfileAlreadyExists: "Profile already exists",
+  OwnerHasNoProfile: "Owner has no profile",
+  ProfileIsAlreadyDefault: "Profile is already default",
 
   // Campaign
   InvalidPurpose: "Invalid purpose",
@@ -48,5 +50,6 @@ export const makeError = (code = "AnUnexpectedErrorHasOccurred") => {
       code,
       message,
     },
+    success: false,
   };
 };
