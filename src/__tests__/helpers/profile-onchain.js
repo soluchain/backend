@@ -9,27 +9,33 @@ dotenv.config();
 
 const { PROFILE_CONTRACT_ADDRESS_LOCAL_TEST } = process.env;
 
-const profileContract = new ethers.Contract(
-  PROFILE_CONTRACT_ADDRESS_LOCAL_TEST,
-  profileABI,
-  signer
-);
+const getProfileContract = (_signer) => {
+  const profileContract = new ethers.Contract(
+    PROFILE_CONTRACT_ADDRESS_LOCAL_TEST,
+    profileABI,
+    _signer
+  );
 
-const createProfileOnChain = async (handler, contentUri) => {
+  return profileContract;
+};
+
+const createProfileOnChain = async (handler, contentUri, _signer = signer) => {
+  const profileContract = getProfileContract(_signer);
   const tx = await profileContract.createProfile(handler, contentUri);
   await tx.wait();
 
   return tx;
 };
 
-const getProfileOnChain = async (handler) => {
+const getProfileOnChain = async (handler, _signer = signer) => {
+  const profileContract = getProfileContract(_signer);
   const profile = await profileContract.getProfile(handler);
   return profile;
 };
 
-const createProfileOnDB = async (handler, contentUri) => {
+const createProfileOnDB = async (handler, contentUri, _signer = signer) => {
   // First, create a profile on-chain
-  await createProfileOnChain(handler, contentUri);
+  await createProfileOnChain(handler, contentUri, _signer);
 
   // Then, create a profile on DB
   const CREATE_PROFILE_MUTATION = gql`

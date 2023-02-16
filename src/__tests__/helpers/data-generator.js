@@ -2,7 +2,7 @@ const chance = require("chance").Chance();
 
 const getValidHandlerRandom = () => {
   return chance.string({
-    length: 32,
+    length: 10,
     casing: "lower",
     alpha: true,
     numeric: true,

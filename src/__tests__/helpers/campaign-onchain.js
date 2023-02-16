@@ -27,14 +27,30 @@ const profileContract = new ethers.Contract(
 const profile_content_uri =
   "https://soluchain.infura-ipfs.io/ipfs/QmUb8LDuYjUhpyUYtjE12kBiUMEnoxLwa8dQoZJHVYenEp";
 
-const createCampaignOnChain = async (handler, contentUri) => {
+const JOIN_CAMPAIGN_MUTATION = gql`
+  mutation joinCampaign($request: JoinCampaignInput!) {
+    joinCampaign(request: $request) {
+      status
+      error {
+        code
+        message
+      }
+    }
+  }
+`;
+
+const createCampaignOnChain = async (
+  handler,
+  campaignContentUri,
+  profileContentUri = profile_content_uri
+) => {
   // First, create a profile on-chain
-  await createProfileOnDB(handler, profile_content_uri);
+  await createProfileOnDB(handler, profileContentUri);
 
   // Get the profile on-chain
   await profileContract.getProfile(handler);
 
-  const tx = await campaignContract.createCampaign(handler, contentUri);
+  const tx = await campaignContract.createCampaign(handler, campaignContentUri);
 
   await tx.wait();
 
@@ -51,40 +67,81 @@ const getCampaignOnChain = async (id) => {
   return campaign;
 };
 
-const createCampaignOnDB = async (handler, contentUri) => {
-  // First, create a campaign on-chain
-  const campaignId = await createCampaignOnChain(handler, contentUri);
+const createCampaignOnDB = async (
+  handler,
+  campaignContentUri,
+  profileContentUri = profile_content_uri
+) => {
+  try {
+    // First, create a campaign on-chain
+    const campaignId = await createCampaignOnChain(
+      handler,
+      campaignContentUri,
+      profileContentUri
+    );
 
-  // Then, create a campaign on DB
-  const CREATE_CAMPAIGN_MUTATION = gql`
-    mutation createCampaign($request: CreateCampaignInput!) {
-      createCampaign(request: $request) {
-        campaign {
-          owner
-          id
-          handler
-          title
-          description
-          status
-          contentUri
-        }
-        error {
-          code
-          message
+    // Then, create a campaign on DB
+    const CREATE_CAMPAIGN_MUTATION = gql`
+      mutation createCampaign($request: CreateCampaignInput!) {
+        createCampaign(request: $request) {
+          campaign {
+            owner
+            id
+            handler
+            title
+            description
+            image
+            status
+            contentUri
+            latestParticipants {
+              id
+              handler
+              image
+              bio
+            }
+          }
+          error {
+            code
+            message
+          }
         }
       }
-    }
-  `;
+    `;
 
-  const data = await fetchGQL(CREATE_CAMPAIGN_MUTATION, {
-    request: { id: campaignId },
+    const data = await fetchGQL(CREATE_CAMPAIGN_MUTATION, {
+      request: { id: campaignId },
+    });
+
+    return data?.createCampaign;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const joinCampaignOnChain = async (campaignId, participantHandler) => {
+  const tx = await campaignContract.joinCampaign(
+    campaignId,
+    participantHandler
+  );
+  await tx.wait();
+  return true;
+};
+
+const joinCampaignOnDB = async (campaignId, handler, participantHandler) => {
+  await joinCampaignOnChain(campaignId, participantHandler);
+  return await fetchGQL(JOIN_CAMPAIGN_MUTATION, {
+    request: {
+      campaignId,
+      handler,
+      participantHandler,
+    },
   });
-
-  return data?.createCampaign;
 };
 
 module.exports = {
   createCampaignOnChain,
   getCampaignOnChain,
   createCampaignOnDB,
+  joinCampaignOnChain,
+  joinCampaignOnDB,
 };

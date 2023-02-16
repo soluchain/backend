@@ -1,5 +1,6 @@
 export * from "./makeError.js";
 export * from "./jwt.js";
+export * from "./encode-decode.js";
 export * from "./validation/index.js";
 export * from "./walletConnector.js";
 export * from "./contract/index.js";

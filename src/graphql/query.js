@@ -4,10 +4,16 @@ export const query = gql`
   type Query {
     # Profile
     getProfile(request: SingleProfileQueryRequest!): ProfileResponse
-    getProfiles(request: ProfilesQueryInput!): ProfilesResponse
+    getProfiles(request: ProfilesQueryRequest!): ProfilesResponse
 
     # Campaign
     getCampaign(request: SingleCampaignQueryRequest!): CampaignResponse
-    getCampaigns(request: CampaignsQueryInput!): CampaignsResponse
+    getCampaigns(request: CampaignsQueryRequest!): CampaignsResponse
+    getParticipants(
+      request: CampaignParticipantsQueryRequest!
+    ): CampaignParticipantsResponse
+    getJoinedCampaigns(
+      request: UserJoinedCampaignsQueryRequest!
+    ): CampaignParticipantsResponse
   }
 `;

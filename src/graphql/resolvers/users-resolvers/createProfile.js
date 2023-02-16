@@ -46,9 +46,12 @@ export const createProfile = async (request, { lambdaContext }) => {
 
     // Isert the new profile into the database ONLY if the profile EXISTS in the smart contract
     const profileData = await profileContract.getProfile(handler);
+
     if (profileData.handler === "" || profileData.owner === ZERO_ADDRESS) {
       return makeError("ProfileDoesNotExist");
     }
+
+    const createdAt = new Date(profileData.createdAt * 1000).toString();
 
     const {
       isValid: isValidIpfsUrl,
@@ -57,14 +60,18 @@ export const createProfile = async (request, { lambdaContext }) => {
     } = await ipfsUrlValidator(profileData.contentUri, "profile");
 
     if (!content) {
-      return ipfsUrlError || makeError("InvalidContentUri");
+      return ipfsUrlError
+        ? {
+            error: ipfsUrlError,
+          }
+        : makeError("InvalidContentUri");
     }
 
     // Check if profile already exists
     const profileGet = await getProfile(dynamoDB, { pk, sk });
 
     // check if handler already exists
-    if (profileGet.Item) {
+    if (profileGet?.Item) {
       return makeError("ProfileAlreadyExists");
     }
 
@@ -82,20 +89,21 @@ export const createProfile = async (request, { lambdaContext }) => {
         image: content.image,
         bio: content.bio,
         featured: defaults.FEATURED_PROFILE,
-        createdAt: profileData.createdAt.toString(),
-        updatedAt: profileData.updatedAt.toString(),
+        isDefault: false,
+        createdAt: createdAt,
+        updatedAt: createdAt,
 
         // GSI1 for getting all profiles by owner
         gsi1pk: `PROFILE_OWNER#${profileData.owner}`,
-        gsi1sk: profileData.createdAt.toString(),
+        gsi1sk: createdAt,
 
         // GSI2 for getting all profiles by status
         gsi2pk: `PROFILE_STATUS#${defaults.PROFILE_STATUS}`,
-        gsi2sk: profileData.createdAt.toString(),
+        gsi2sk: createdAt,
 
-        // GSI3 - Campaigns by featured
+        // GSI3 - for getting all featured profiles
         gsi3pk: `PROFILE_FEATURED#${defaults.FEATURED_PROFILE}`,
-        gsi3sk: profileData.createdAt.toString(),
+        gsi3sk: createdAt,
       },
     };
 
@@ -114,8 +122,8 @@ export const createProfile = async (request, { lambdaContext }) => {
         status: defaults.PROFILE_STATUS,
         image: content.image,
         bio: content.bio,
-        createdAt: new Date(profileData.createdAt * 1000),
-        updatedAt: new Date(profileData.updatedAt * 1000),
+        createdAt: createdAt,
+        updatedAt: createdAt,
       });
 
       return {
@@ -125,6 +133,7 @@ export const createProfile = async (request, { lambdaContext }) => {
 
     return makeError("InternalServerError");
   } catch (error) {
+    console.log(error);
     return {
       error,
     };

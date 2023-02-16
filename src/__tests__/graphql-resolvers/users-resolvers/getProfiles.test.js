@@ -4,7 +4,7 @@ const { getValidHandlerRandom } = require("../../helpers/data-generator");
 const { createProfileOnDB } = require("../../helpers/index.js");
 
 const GET_PROFILES_QUERY = gql`
-  query getProfiles($request: ProfilesQueryInput!) {
+  query getProfiles($request: ProfilesQueryRequest!) {
     getProfiles(request: $request) {
       items {
         id

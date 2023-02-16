@@ -16,26 +16,24 @@ export const campaignType = gql`
     status: String
     featured: Boolean
     title: String
+    purpose: String
     description: String
     image: String
+    latestParticipants: [ProfileType]
+    participantCount: Int
     createdAt: String
     updatedAt: String
   }
 
   type CampaignResponse {
     campaign: CampaignType
-    error: errorType
+    error: ErrorType
   }
 
   type CampaignsResponse {
     items: [CampaignType]
     nextToken: String
-    error: errorType
-  }
-
-  input SingleCampaignQueryRequest {
-    id: BigInt!
-    handler: String!
+    error: ErrorType
   }
 
   input LocationInput {
@@ -43,7 +41,7 @@ export const campaignType = gql`
     lng: Float
   }
 
-  input CampaignsQueryInput {
+  input CampaignsQueryRequest {
     owner: Address
     profile: String
     orderBy: String
@@ -56,5 +54,45 @@ export const campaignType = gql`
 
   input CreateCampaignInput {
     id: BigInt!
+  }
+
+  input JoinCampaignInput {
+    campaignId: BigInt!
+    handler: String!
+    participantHandler: String!
+  }
+
+  input CampaignParticipantsQueryRequest {
+    campaignId: BigInt!
+    limit: Int
+    nextToken: String
+  }
+
+  type CampaignParticipantType {
+    campaign: CampaignType
+    recipient: ProfileType
+    profile: ProfileType
+    createdAt: String
+  }
+
+  type CampaignParticipantsResponse {
+    items: [CampaignParticipantType]
+    nextToken: String
+    error: ErrorType
+  }
+
+  input SingleCampaignQueryRequest {
+    id: BigInt!
+    handler: String!
+  }
+
+  input UserJoinedCampaignsQueryRequest {
+    handler: String!
+    limit: Int
+    nextToken: String
+  }
+
+  input SetDefaultProfileInput {
+    handler: String!
   }
 `;

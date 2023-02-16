@@ -1,0 +1,24 @@
+{
+  "title": "H",
+  "description": "We want to make our city more sustainable. We want to know what you think about this. Please share your ideas with us. We will use your ideas to make our city more sustainable.",
+  "image": "https://soluchain.infura-ipfs.io/ipfs/QmeGzAwWuA5Ct4zPWBkRiaxvyXjdgfWUjfHDxMqUw2PeD9",
+  "location": {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "coordinates": [
+        [
+          [36.86187072010408, 30.789969658477304],
+          [36.85852683082385, 30.79202667298435],
+          [36.85361522818074, 30.789773752333787],
+          [36.854973788147504, 30.7979365083159],
+          [36.85622782207004, 30.795781540736556],
+          [36.85648907654789, 30.79813241445936],
+          [36.86218420222326, 30.798948690057358],
+          [36.86187072010408, 30.789969658477304]
+        ]
+      ],
+      "type": "Polygon"
+    }
+  }
+}

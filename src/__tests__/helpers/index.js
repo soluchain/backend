@@ -1,3 +1,9 @@
+const { wallet, signer, testUser } = require("./walletConnector");
+
+const {
+  generateSampleAccessToken,
+} = require("./generate-sample-access-token.js");
+
 const {
   createProfileOnChain,
   getProfileOnChain,
@@ -7,9 +13,17 @@ const {
   createCampaignOnChain,
   getCampaignOnChain,
   createCampaignOnDB,
+  joinCampaignOnChain,
+  joinCampaignOnDB,
 } = require("./campaign-onchain.js");
 
 module.exports = {
+  wallet,
+  signer,
+  testUser,
+
+  generateSampleAccessToken,
+
   createProfileOnChain,
   getProfileOnChain,
   createProfileOnDB,
@@ -17,4 +31,6 @@ module.exports = {
   createCampaignOnChain,
   getCampaignOnChain,
   createCampaignOnDB,
+  joinCampaignOnChain,
+  joinCampaignOnDB,
 };

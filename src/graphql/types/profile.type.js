@@ -29,20 +29,20 @@ export const profileType = gql`
 
   type ProfileResponse {
     profile: ProfileType
-    error: errorType
+    error: ErrorType
   }
 
   type ProfilesResponse {
     items: [ProfileType]
     nextToken: String
-    error: errorType
+    error: ErrorType
   }
 
   input SingleProfileQueryRequest {
     handler: String
   }
 
-  input ProfilesQueryInput {
+  input ProfilesQueryRequest {
     owner: Address
     featured: Boolean
     orderBy: String
@@ -52,5 +52,10 @@ export const profileType = gql`
 
   input CreateProfileInput {
     handler: String!
+  }
+
+  input VerifyWhitelistInput {
+    handler: String!
+    tweetUrl: String!
   }
 `;

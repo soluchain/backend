@@ -24,26 +24,26 @@ const CREATE_CAMPAIGN_MUTATION = gql`
   }
 `;
 
-const too_long_title_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmUdQcxABt892K38CQnFmepp3cK8zZQ4yNWE6NRLHs3qau";
-
-const too_short_title_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmRdi6PqLg5UdLJJkRMTzEgGjGoVLktUCS5h6mSZaf5Yxg";
-
-const invalid_description_with_invalid_tags_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmWRR2XLr7N4bpsaXDmXeNb5ytuqzMJNeMeiNHgQ9JTbUe";
-
-const too_long_description_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmXKJdFj1rMGRHiQLcP9MpwHgZdrPUqhVrJpyXQB71R5H1";
+const not_provided_location_content_uri =
+  "https://soluchain.infura-ipfs.io/ipfs/Qmet8DsfXQ9C66tt9QV7a3jDfrry6GJAXHX95dimsqruYF";
 
 const big_area_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmRR26UsG2ceUwocdh6DaDtxSKiTg2AwAhhtxp2KttTBHu";
+  "https://soluchain.infura-ipfs.io/ipfs/QmdAfRxprKSusoiDAtg5a4PmpZwKyXwRe4fSPtExUyJj3G";
 
-const not_provided_location_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/Qmey6Twf6B3CwRZ9n8EKTu3BZb1sTecyesZrpSMFPw6DCb";
+const too_short_title_content_uri =
+  "https://soluchain.infura-ipfs.io/ipfs/QmRPjRyWXa7Aq4cthGnnAPw9GWExzhyvN5coUpAGLwzW9r";
+
+const too_long_title_content_uri =
+  "https://soluchain.infura-ipfs.io/ipfs/QmRJtc696ym19t3M3CMHNfqgkBtZR1QxxWQ7J7SsbwobQ9";
+
+const invalid_description_with_invalid_tags_content_uri =
+  "https://soluchain.infura-ipfs.io/ipfs/QmSFKpHodPS6zXbSgdjh7paEMzHHZpv9M8YrERes48JYpd";
+
+const too_long_description_content_uri =
+  "https://soluchain.infura-ipfs.io/ipfs/QmfVAYaf3Wb9Fs7zoLdWu3WL8y7Vd7VZK5z96LXvaHqxZi";
 
 const valid_content_uri =
-  "https://soluchain.infura-ipfs.io/ipfs/QmS942X7HR8Sfr5vVNydfmz4d23pJmtZawmSnoGMpfcWwQ";
+  "https://soluchain.infura-ipfs.io/ipfs/QmTPi2ZWWXJnobsfmuqmgefN2w2ffSykyue3KcJsCrRtEP";
 
 describe("createCampaign", () => {
   test("should revert if campaign is NOT created on-chain", async () => {
@@ -124,7 +124,7 @@ describe("createCampaign", () => {
     const { campaign, error } = await createCampaignOnDB(handler, contentUri);
 
     expect(campaign).toBeNull();
-    expect(error?.code).toBe("InvalidContentUri");
+    expect(error?.code).toBe("InvalidIPFSUri");
   });
 
   test("should create a new campaign", async () => {

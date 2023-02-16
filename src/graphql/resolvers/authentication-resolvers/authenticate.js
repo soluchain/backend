@@ -8,8 +8,9 @@ Parameters:
     signature: String!
 */
 
-import { makeError } from "../../../utils/index.js";
 import dotenv from "dotenv";
+import { ethers } from "ethers";
+import { makeError } from "../../../utils/index.js";
 import { genetateJWT } from "../../../utils/index.js";
 
 dotenv.config();

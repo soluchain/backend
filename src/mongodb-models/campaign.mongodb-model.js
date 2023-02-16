@@ -45,6 +45,10 @@ const CampaignSchema = new Schema({
     type: String,
     required: true,
   },
+  purpose: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
@@ -73,6 +77,18 @@ const CampaignSchema = new Schema({
       type: [],
       required: true,
     },
+  },
+  latestParticipants: {
+    type: [
+      {
+        id: String,
+        handler: String,
+        image: String,
+        bio: String,
+      },
+    ],
+
+    default: [],
   },
   createdAt: {
     type: Date,

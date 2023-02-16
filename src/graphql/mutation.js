@@ -6,9 +6,12 @@ export const mutation = gql`
     authenticate(request: AuthenticateInput!): AuthenticateResponse
 
     # Profile
+    verifyWhitelist(request: VerifyWhitelistInput!): DataResponse
     createProfile(request: CreateProfileInput!): ProfileResponse
+    setDefaultProfile(request: SetDefaultProfileInput!): DataResponse
 
     # Campaign
     createCampaign(request: CreateCampaignInput!): CampaignResponse
+    joinCampaign(request: JoinCampaignInput!): DataResponse
   }
 `;

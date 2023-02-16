@@ -47,6 +47,13 @@ export const getCampaign = async (request, { lambdaContext }) => {
       return makeError("CampaignIsNotAvailable");
     }
 
+    // lastParticipents is a array of JSON strings that need to be parsed
+    campaign.latestParticipants = campaign.latestParticipants
+      ? campaign.latestParticipants.map((participant) => {
+          return JSON.parse(participant);
+        })
+      : [];
+
     return {
       campaign,
     };
