@@ -1,4 +1,5 @@
 import { createProfile } from "./createProfile.js";
+import { setDefaultProfile } from "./setDefaultProfile.js";
 import { getProfile } from "./getProfile.js";
 import { getProfiles } from "./getProfiles.js";
 import { verifyWhitelist } from "./verifyWhitelist.js";
@@ -12,5 +13,7 @@ export const usersResolvers = {
     verifyWhitelist: (_, { request }, context) =>
       verifyWhitelist(request, context),
     createProfile: (_, { request }, context) => createProfile(request, context),
+    setDefaultProfile: (_, { request }, context) =>
+      setDefaultProfile(request, context),
   },
 };

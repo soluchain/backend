@@ -33,9 +33,9 @@ const getProfileOnChain = async (handler, _signer = signer) => {
   return profile;
 };
 
-const createProfileOnDB = async (handler, contentUri) => {
+const createProfileOnDB = async (handler, contentUri, _signer = signer) => {
   // First, create a profile on-chain
-  await createProfileOnChain(handler, contentUri);
+  await createProfileOnChain(handler, contentUri, _signer);
 
   // Then, create a profile on DB
   const CREATE_PROFILE_MUTATION = gql`

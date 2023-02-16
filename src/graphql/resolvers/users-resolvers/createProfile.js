@@ -89,6 +89,7 @@ export const createProfile = async (request, { lambdaContext }) => {
         image: content.image,
         bio: content.bio,
         featured: defaults.FEATURED_PROFILE,
+        isDefault: false,
         createdAt: createdAt,
         updatedAt: createdAt,
 
@@ -100,7 +101,7 @@ export const createProfile = async (request, { lambdaContext }) => {
         gsi2pk: `PROFILE_STATUS#${defaults.PROFILE_STATUS}`,
         gsi2sk: createdAt,
 
-        // GSI3 - Campaigns by featured
+        // GSI3 - for getting all featured profiles
         gsi3pk: `PROFILE_FEATURED#${defaults.FEATURED_PROFILE}`,
         gsi3sk: createdAt,
       },

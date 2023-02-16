@@ -91,4 +91,8 @@ export const campaignType = gql`
     limit: Int
     nextToken: String
   }
+
+  input SetDefaultProfileInput {
+    handler: String!
+  }
 `;
